@@ -1,12 +1,12 @@
 package parser
 
 import (
-	"testing"
 	"interpreter_go/ast"
 	"interpreter_go/lexer"
+	"testing"
 )
 
-func testLetStatement(t *testing.T) {
+func TestLetStatement(t *testing.T) {
 	input := `
 	let x = 5; 
 	let y = 10; 
@@ -21,12 +21,12 @@ func testLetStatement(t *testing.T) {
 		t.Fatalf("ParseProgram() returned nil")
 	}
 	if len(program.Statements) != 3 {
-		t.Fatalf("program.Statements does not contain 3 statements. got=%d", 
-			len(program.Statements)))
+		t.Fatalf("program.Statements does not contain 3 statements. got=%d",
+			len(program.Statements))
 	}
 
 	tests := []struct {
-		expectedIdentifier string 
+		expectedIdentifier string
 	}{
 		{"x"},
 		{"y"},
@@ -44,25 +44,25 @@ func testLetStatement(t *testing.T) {
 func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 	if s.TokenLiteral() != "let" {
 		t.Errorf("s.TokenLiteral not 'let'. got=%q", s.TokenLiteral())
-		return false 
+		return false
 	}
 
 	letStmt, ok := s.(*ast.LetStatement)
 	if !ok {
 		t.Errorf("s not *ast.LetStatement. got=%T", s)
-		return false 
+		return false
 	}
 
 	if letStmt.Name.Value != name {
 		t.Errorf("letStmt.Name.Value not '%s'. got=%s", name, letStmt.Name.Value)
-		return false 
+		return false
 	}
 
 	if letStmt.Name.TokenLiteral() != name {
 		t.Errorf("letStmt.Name.TokenLiteral() not '%s'. got=%s",
 			name, letStmt.Name.TokenLiteral())
-		return false 
+		return false
 	}
 
-	return true 
+	return true
 }
